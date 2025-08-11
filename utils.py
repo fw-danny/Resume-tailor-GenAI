@@ -1,5 +1,6 @@
 from fpdf import FPDF
 import PyPDF2
+from pathlib import Path
 import docx
 import io
 import os
@@ -51,18 +52,21 @@ def text_to_pdf_bytes(text: str, title: str = "Document") -> bytes:
     text = text.replace("\t", "    ").replace("—", "–")  # normalize
 
     # Fonts
-    font_reg = os.path.join("fonts", "DejaVuSans.ttf")
-    font_bold = os.path.join("fonts", "DejaVuSans-Bold.ttf")
-    font_oblq = os.path.join("fonts", "DejaVuSans-Oblique.ttf")
+    BASE_DIR = Path(__file__).resolve().parent
+    FONTS_DIR = BASE_DIR / "fonts"
+
+    FONT_REG = FONTS_DIR / "DejaVuSans.ttf"
+    FONT_BOLD = FONTS_DIR / "DejaVuSans-Bold.ttf"
+    FONT_OBLIQUE = FONTS_DIR / "DejaVuSans-Oblique.ttf"
 
     pdf = FPDF()
     l, t, r = MARGINS_MM
     pdf.set_margins(l, t, r)
     pdf.add_page()
 
-    pdf.add_font("DejaVu", "", font_reg, uni=True)
-    pdf.add_font("DejaVu", "B", font_bold, uni=True)
-    pdf.add_font("DejaVuI", "", font_oblq, uni=True)
+    pdf.add_font("DejaVu", "", FONT_REG, uni=True)
+    pdf.add_font("DejaVu", "B", FONT_BOLD, uni=True)
+    pdf.add_font("DejaVuI", "", FONT_OBLIQUE, uni=True)
 
     pdf.set_font("DejaVu", "", BODY_SIZE)
 
