@@ -14,6 +14,19 @@ Upload your resume, paste a job description, and let AI craft polished, role-spe
 - Fast and responsive AI output
 - Easy to test with built-in sample data
 
+**Why i did it:**
+Problem
+Manually tailoring resumes and cover letters for each job application is time-consuming and repetitive.
+
+Solution
+A web app that takes a user’s resume and a job description, then uses an LLM to:
+
+Extract relevant skills and experience from the resume.
+
+Rewrite the resume to better match the job description.
+
+Generate a tailored cover letter draft.
+
 ---
 
 ## ✨ Features
