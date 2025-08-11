@@ -17,7 +17,7 @@ Upload your resume, paste a job description, and let AI craft polished, role-spe
 ---
 
 ## ✨ Features
-- 📤 **Upload Resume** — Supports PDF & DOCX formats  
+- 📤 **Upload Resume** — Supports PDF ONLY!  
 - 🤖 **AI Tailoring** — Uses OpenAI GPT to rewrite your resume for the target role  
 - 📝 **Cover Letter Generation** — Automatically matches the tailored resume  
 - 📑 **Polished PDF Export** — Clean headings, smaller bullets, consistent layout  
