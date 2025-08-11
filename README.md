@@ -5,27 +5,31 @@
 
 ---
 
-## 📄 Overview
+## 📄 Overview  
 A **GenAI-powered Streamlit web app** that tailors your resume and generates a matching cover letter in minutes.  
-Upload your resume, paste a job description, and let AI craft polished, role-specific documents ready to send.
+Simply upload your resume, paste a job description, and let AI craft polished, role-specific documents ready to send.  
 
-**Why it stands out:**
-- Professional, recruiter-friendly PDF formatting
-- Fast and responsive AI output
-- Easy to test with built-in sample data
+**Why it stands out:**  
+- 📑 Professional, recruiter-friendly PDF formatting  
+- ⚡ Fast and responsive AI output  
+- 🎯 Easy to test with built-in sample data  
 
-**Why i did it:**
-Problem
-Manually tailoring resumes and cover letters for each job application is time-consuming and repetitive.
+---
 
-Solution
-A web app that takes a user’s resume and a job description, then uses an LLM to:
+## ❗ Problem  
+Manually tailoring resumes and cover letters for each job application is **time-consuming** and repetitive.  
+Applicants often spend hours rewording skills and achievements to match each role — time that could be spent preparing for interviews.  
 
-Extract relevant skills and experience from the resume.
+---
 
-Rewrite the resume to better match the job description.
+## 💡 Solution  
+This app automates the process by combining **document parsing** with **LLM-powered text generation**:  
 
-Generate a tailored cover letter draft.
+1. **Extracts** relevant skills, projects, and experience from your resume  
+2. **Rewrites** the resume to align closely with the target job description  
+3. **Generates** a tailored, ready-to-edit cover letter draft  
+
+The result: a consistent, professional application package in **minutes instead of hours**.  
 
 ---
 
