@@ -1,109 +1,79 @@
-Perfect — here’s a **polished README.md** you can drop straight into your repo.
-It’s short, professional, and makes your project look like a finished portfolio piece.
+# 🎯 GenAI Resume & Cover Letter Tailor
 
----
-
-````markdown
-# GenAI Resume & Cover Letter Tailor
-
-**Live Demo:** [View on Streamlit Cloud](https://your-streamlit-app-link-here)  
-**Author:** Daniel Ajibade
+**Live Demo:** [🚀 Try it here](https://resume-tailor-genai-6qwsa4ykamrwzm3fo9zxef.streamlit.app/)  
+**Author:** Daniel Ajibade  
 
 ---
 
 ## 📄 Overview
-This is a **GenAI-powered web app** that tailors your resume and generates a matching cover letter in minutes.  
-Upload your resume, paste a job description, and let AI customize your documents for maximum relevance.
+A **GenAI-powered Streamlit web app** that tailors your resume and generates a matching cover letter in minutes.  
+Upload your resume, paste a job description, and let AI craft polished, role-specific documents ready to send.
 
-Built for quick iteration and recruiter-friendly demos, the app focuses on:
-- **Clean, professional PDF formatting**
-- **Fast AI-generated tailoring**
-- **Ease of use** with sample data for testing
+**Why it stands out:**
+- Professional, recruiter-friendly PDF formatting
+- Fast and responsive AI output
+- Easy to test with built-in sample data
 
 ---
 
 ## ✨ Features
-- **Upload**: Supports PDF and DOCX resumes.
-- **AI Tailoring**: Uses OpenAI's GPT model to rewrite your resume for a specific job.
-- **Cover Letter**: Auto-generates a matching, personalized cover letter.
-- **PDF Export**: Outputs polished PDFs with subheadings, bullet points, and consistent formatting.
-- **Sample Data**: Click one button to load a sample resume and job description for testing.
+- 📤 **Upload Resume** — Supports PDF & DOCX formats  
+- 🤖 **AI Tailoring** — Uses OpenAI GPT to rewrite your resume for the target role  
+- 📝 **Cover Letter Generation** — Automatically matches the tailored resume  
+- 📑 **Polished PDF Export** — Clean headings, smaller bullets, consistent layout  
+- 🎯 **Sample Data Mode** — Instantly preview the app without uploading files  
 
 ---
 
 ## 🛠️ Tech Stack
-- **Frontend & UI**: [Streamlit](https://streamlit.io/)
-- **AI**: OpenAI API (`gpt-5-mini` in this demo)
-- **PDF Processing**: `fpdf2`, `PyPDF2`
-- **Docx Parsing**: `python-docx`
+- **Frontend & UI:** [Streamlit](https://streamlit.io/)  
+- **AI Engine:** OpenAI API (`gpt-5-mini`)  
+- **PDF Processing:** `fpdf2`, `PyPDF2`  
+- **Document Parsing:** `python-docx`  
 
 ---
 
-## 🚀 Quick Start (Local)
-1. **Clone the repo**
-   ```bash
-   git clone https://github.com/your-username/Resume-tailor-GenAI.git
-   cd Resume-tailor-GenAI
-````
+## 🚀 Run Locally
 
-2. **Set up environment**
+### 1️⃣ Clone the repo
+```bash
+git clone https://github.com/your-username/Resume-tailor-GenAI.git
+cd Resume-tailor-GenAI
 
-   ```bash
-   python -m venv .venv
-   source .venv/bin/activate    # or .venv\Scripts\activate on Windows
-   pip install -r requirements.txt
-   ```
+2️⃣ Set up environment
+bash
+Copy
+python -m venv .venv
+source .venv/bin/activate    # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
 
-3. **Add your API key**
+3️⃣ Add your API key
+Create a file .streamlit/secrets.toml:
 
-   * Create a `.streamlit/secrets.toml` file:
+toml
+Copy
+OPENAI_API_KEY = "your_api_key_here"
 
-     ```toml
-     OPENAI_API_KEY = "your_api_key_here"
-     ```
+4️⃣ Start the app
+bash
+Copy
+streamlit run app.py
 
-4. **Run the app**
-
-   ```bash
-   streamlit run app.py
-   ```
-
----
-
-## 📂 Project Structure
-
-```
+📂 Project Structure
+graphql
+Copy
 Resume-tailor-GenAI/
-│
-├── app.py                # Main Streamlit app
-├── prompts.py            # Prompt templates for resume & cover letter
-├── utils.py              # Helper functions (PDF formatting, file parsing)
-├── fonts/                # DejaVuSans fonts for clean PDF output
-├── sample_data/          # Sample resume & job description
-├── requirements.txt      # Python dependencies
-└── README.md             # This file
-```
+├── app.py               # Main Streamlit app
+├── prompts.py           # AI prompt templates
+├── utils.py             # File parsing & PDF formatting
+├── fonts/               # DejaVuSans fonts for output
+├── sample_data/         # Example resume & JD
+├── requirements.txt     # Dependencies
+└── README.md
 
----
+💡 Tips
+Recruiters: Use "Load Sample Data" to test instantly
 
-## 💡 Usage Tips
+Developers: Modify prompts.py to adjust tone & style
 
-* **For recruiters**: Try the "Load Sample Data" button to see output instantly.
-* **For developers**: Modify `prompts.py` to experiment with tone, style, and structure.
-* Keep your API key secure — never commit it to GitHub.
-
----
-
-## 📜 License
-
-MIT License — free to use, modify, and share.
-
----
-
-**Built with care for fast AI prototyping and real-world resume tailoring.**
-
-```
-
----
-
-
+Keep your API key private — never commit it to GitHub
