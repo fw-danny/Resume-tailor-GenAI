@@ -29,7 +29,7 @@ def text_to_pdf_bytes(text: str, title: str = "Document") -> bytes:
     """
     Compact, resilient PDF renderer:
     - Loads DejaVu fonts via OS-safe paths relative to this file
-    - Falls back to Helvetica + sanitized text if fonts missing
+    - Falls back to Helvetica if fonts are missing
     - Keeps headings/subheadings/bullets formatting tight and readable
     """
 
@@ -45,16 +45,16 @@ def text_to_pdf_bytes(text: str, title: str = "Document") -> bytes:
     GAP_AFTER_HEADING = 2.0
     CONTACT_SIZE = 13
 
-    # Normalize a couple chars early (safe for both font paths)
+    # Normalize some characters
     text = text.replace("\t", "    ").replace("—", "–")
 
     # -------- OS-safe font paths relative to this file --------
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    font_reg = BASE_DIR + os.sep + "fonts" + os.sep + "DejaVuSans.ttf"
-    font_bold = BASE_DIR + os.sep + "fonts" + os.sep + "DejaVuSans-Bold.ttf"
-    font_oblq = BASE_DIR + os.sep + "fonts" + os.sep + "DejaVuSans-Oblique.ttf"
+    BASE_DIR = Path(__file__).resolve().parent
+    FONT_REG = (BASE_DIR / "fonts" / "DejaVuSans.ttf").as_posix()
+    FONT_BOLD = (BASE_DIR / "fonts" / "DejaVuSans-Bold.ttf").as_posix()
+    FONT_OBLQ = (BASE_DIR / "fonts" / "DejaVuSans-Oblique.ttf").as_posix()
 
-    have_fonts = all(os.path.isfile(p) for p in (font_reg, font_bold, font_oblq))
+    have_fonts = all(Path(p).is_file() for p in (FONT_REG, FONT_BOLD, FONT_OBLQ))
 
     pdf = FPDF()
     l, t, r = MARGINS_MM
@@ -63,13 +63,13 @@ def text_to_pdf_bytes(text: str, title: str = "Document") -> bytes:
 
     # -------- Register fonts or fall back --------
     if have_fonts:
-        pdf.add_font("DejaVu",  "", font_reg,  uni=True)
-        pdf.add_font("DejaVu",  "B", font_bold, uni=True)
-        pdf.add_font("DejaVuI", "", font_oblq, uni=True)
+        pdf.add_font("DejaVu",  "", FONT_REG,  uni=True)
+        pdf.add_font("DejaVu",  "B", FONT_BOLD, uni=True)
+        pdf.add_font("DejaVuI", "", FONT_OBLQ, uni=True)
         pdf.set_font("DejaVu", size=BODY_SIZE)
         use_core_font = False
     else:
-        # Fallback: core Helvetica (Latin-1 only) + sanitize text so it won’t crash
+        # Fallback: core Helvetica (Latin-1 only) + sanitize text
         text = (text.replace("•", "-")
                     .replace("–", "-")
                     .replace("—", "-")
@@ -102,7 +102,7 @@ def text_to_pdf_bytes(text: str, title: str = "Document") -> bytes:
         words = s.split()
         return 5 <= len(words) <= 16 and sum(w[:1].isupper() for w in words)/len(words) > 0.5
 
-    # -------- Render (keeps original lines; tidy spacing) --------
+    # -------- Render --------
     lines = text.splitlines()
     first_non_empty_done = False
 
@@ -111,7 +111,7 @@ def text_to_pdf_bytes(text: str, title: str = "Document") -> bytes:
             pdf.ln(LINE_H_BODY)
             continue
 
-        # Contact line (first non-empty): centered & larger
+        # Contact line (first non-empty)
         if not first_non_empty_done:
             if not use_core_font:
                 pdf.set_font("DejaVu", "B", CONTACT_SIZE)
@@ -119,29 +119,23 @@ def text_to_pdf_bytes(text: str, title: str = "Document") -> bytes:
                 pdf.set_font("Helvetica", "B", CONTACT_SIZE)
             pdf.multi_cell(page_w, LINE_H_BODY + 1, raw.strip(), align="C")
             pdf.ln(LINE_H_BODY)
-            # reset
             pdf.set_font("DejaVu" if not use_core_font else "Helvetica", size=BODY_SIZE)
             first_non_empty_done = True
             continue
 
-        # Bullets (small symbol, hanging indent)
+        # Bullets
         m = bullet_re.match(raw)
         if m:
             leading_spaces, symbol, rest = m.groups()
-            # normalize symbols if core font
             if use_core_font and symbol not in "-*":
                 symbol = "-"
             indent_px = string_w(leading_spaces)
             y0 = pdf.get_y()
             x_bullet = pdf.l_margin + indent_px
             pdf.set_xy(x_bullet, y0)
-
-            # smaller bullet symbol
             pdf.set_font("DejaVu" if not use_core_font else "Helvetica", "", BODY_SIZE - 1)
             bullet_token = f"{symbol} "
             pdf.cell(string_w(bullet_token), LINE_H_BODY, bullet_token, ln=0)
-
-            # text after bullet
             pdf.set_font("DejaVu" if not use_core_font else "Helvetica", "", BODY_SIZE)
             x_text = pdf.get_x() + string_w(" ")
             pdf.set_xy(x_text, y0)
@@ -150,7 +144,7 @@ def text_to_pdf_bytes(text: str, title: str = "Document") -> bytes:
             pdf.ln(GAP_AFTER_PARA)
             continue
 
-        # Subheading (oblique/italic)
+        # Subheading
         if is_subheading(raw):
             if not use_core_font:
                 pdf.set_font("DejaVuI", "", SUBHEAD_SIZE)
@@ -161,7 +155,7 @@ def text_to_pdf_bytes(text: str, title: str = "Document") -> bytes:
             pdf.set_font("DejaVu" if not use_core_font else "Helvetica", "", BODY_SIZE)
             continue
 
-        # Section heading (bold)
+        # Section heading
         if is_section_heading(raw):
             if not use_core_font:
                 pdf.set_font("DejaVu", "B", HEAD_SIZE)
@@ -172,12 +166,11 @@ def text_to_pdf_bytes(text: str, title: str = "Document") -> bytes:
             pdf.set_font("DejaVu" if not use_core_font else "Helvetica", "", BODY_SIZE)
             continue
 
-        # Normal text (preserve indent)
+        # Normal text
         leading_spaces = len(raw) - len(raw.lstrip(" "))
         indent_w = string_w(" " * leading_spaces)
         pdf.set_x(pdf.l_margin + indent_w)
         pdf.multi_cell(page_w - indent_w, LINE_H_BODY, raw.strip(), align="J")
         pdf.ln(GAP_AFTER_PARA)
 
-    # Return bytes
     return pdf.output(dest="S").encode("latin1")

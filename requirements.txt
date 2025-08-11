@@ -2,4 +2,4 @@ streamlit
 openai
 python-docx
 PyPDF2
-fpdf
+fpdf>=2.7
