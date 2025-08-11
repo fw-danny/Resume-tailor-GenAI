@@ -1,0 +1,14 @@
+# Ignore Python cache and compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore Mac system files
+.DS_Store
+
+# Ignore local environment and secrets
+.env
+.streamlit/secrets.toml
+
+# Ignore other temporary files
+*.log
