@@ -15,7 +15,7 @@ APP_SUBTITLE = "Upload your resume, paste the job description, and get a tidy ta
 PRIVACY_NOTE = "Files and text are processed in-memory — nothing is stored."
 
 # Prefer secrets in production; for local dev you can temporarily hardcode
-client = OpenAI(api_key="OPENAI_API_KEY")
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
 # -------------------- Page Setup --------------------
 st.set_page_config(page_title=APP_TITLE, layout="wide")
