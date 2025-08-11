@@ -173,4 +173,15 @@ def text_to_pdf_bytes(text: str, title: str = "Document") -> bytes:
         pdf.multi_cell(page_w - indent_w, LINE_H_BODY, raw.strip(), align="J")
         pdf.ln(GAP_AFTER_PARA)
 
+        # --- Final output ---
+    pdf_bytes = pdf.output(dest="S")
+
+    # fpdf2 >= 2.7 returns bytearray; older versions may return str
+    if isinstance(pdf_bytes, bytearray):
+        return bytes(pdf_bytes)
+    elif isinstance(pdf_bytes, str):
+        return pdf_bytes.encode("latin1", "ignore")
+    else:
+        raise TypeError(f"Unexpected PDF output type: {type(pdf_bytes)}")
+
     return pdf.output(dest="S").encode("latin1")
